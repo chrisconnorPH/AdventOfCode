@@ -7,7 +7,7 @@ class Elf
         @x=x
         @y=y
         $elfHash[[@x,@y]]=self
-        @order=["north","south","east","west"]
+        @order=["north","south","west","east"]
     end
     def setXY(x, y)
         $elfHash.delete([@x,@y])
@@ -105,16 +105,18 @@ p $elfHash
 
 p getFrame()
 
-noCount=0
+noCount=false
 round=0
-while noCount<8
+while noCount==false
     round=round+1
     p [round,noCount]
-    noCount=noCount+1
+    if round>1
+        noCount=true
+    end
     moveCount=0
     $proposedHash.each do |p|
         if p[1]!="crash"
-            noCount=0
+            noCount=false
             moveCount=moveCount+1
         end
         $proposedHash.delete(p[0])
@@ -122,7 +124,7 @@ while noCount<8
     p $proposedHash
     p moveCount
     sleep(0.1)
-    if noCount>0 && round>1
+    if noCount==true && round>1
         p round-1
 #        sleep(1000)
     end
@@ -151,4 +153,5 @@ while noCount<8
     end
  #   p groundCount
  #   gets
+    p noCount
 end
